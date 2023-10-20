@@ -86,13 +86,13 @@ transform_arcsinh <- function(matrix,
 transform_data <- function(seu,
                            transformation) {
   # get untransformed data
-  matrix <- Seurat::GetAssayData(seu, slot = "counts")
+  matrix <- GetAssayData(seu, slot = "counts")
   # get panel (stored in misc slot by prep_seurat function)
   panel <- data.frame(seu@misc)
   # transform data
   if(transformation == "arcsinh") transformed <- transform_arcsinh(matrix, panel)
   if(transformation == "biexp") transformed <- transform_biexp(matrix, panel)
   # write into Seurat object
-  seu <- Seurat::SetAssayData(seu, slot = "data", new.data = transformed)
+  seu <- SetAssayData(seu, slot = "data", new.data = transformed)
   return(seu)
 }

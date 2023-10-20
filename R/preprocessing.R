@@ -17,7 +17,7 @@ create_flowset <- function(fcs_dir,
     stop("File names provided in metadata do not match files in fcs folder.")
   }
   # use flowCore and create flowSet
-  fcs_fs <- flowCore::read.flowSet(
+  fcs_fs <- read.flowSet(
     path = fcs_dir,
     transformation = FALSE, # Do not transform data. Transformation happens later.
     truncate_max_range = FALSE, # Inhibits removal of very bright events!
@@ -66,7 +66,7 @@ create_seurat <- function(fcs_fs,
                           metadata = NULL,
                           ...) {
   # create matrix of all fcs files in flowSet
-  matrix <- flowCore::fsApply(fcs_fs, flowCore::exprs)
+  matrix <- fsApply(fcs_fs, exprs)
   # create matrix of unused channels
   matrix_unused <- matrix[, !(colnames(matrix) %in% panel$fcs_colname)]
   # subset to only contain channels present in panel
@@ -89,20 +89,20 @@ create_seurat <- function(fcs_fs,
     meta_df <- NULL
   }
   # create seurat object
-  seu <- Seurat::CreateSeuratObject(counts = matrix,
-                                    assay = "fcs",
-                                    meta.data = meta_df,
-                                    min.cells = 0,
-                                    min.features = 0,
-                                    ...)
+  seu <- CreateSeuratObject(counts = matrix,
+                            assay = "fcs",
+                            meta.data = meta_df,
+                            min.cells = 0,
+                            min.features = 0,
+                            ...)
   # add panel data to seu@misc slot
   seu@misc <- panel
   # add unused channels to new assay: "unused"
-  seu[["unused"]] <- Seurat::CreateAssayObject(counts = t(matrix_unused),
-                                               min.cells = 0,
-                                               min.features = 0)
+  seu[["unused"]] <- CreateAssayObject(counts = t(matrix_unused),
+                                       min.cells = 0,
+                                       min.features = 0)
   # set idents to sample_id if metadata was provided
-  if(!is.null(metadata)) Seurat::Idents(seu) = seu$sample_id
+  if(!is.null(metadata)) Idents(seu) = seu$sample_id
   # return Seurat object
   return(seu)
 }

@@ -20,16 +20,16 @@ compensate_data <- function(fcs_fs,
   if(is.null(spillover(fcs_fs[[1]])[[comp_matrix]]))
     stop("Spillover matrix empty!", call. = FALSE)
   # get list of compensation matrices (one for each sample) using matrices in 3rd column
-  comp <- flowCore::fsApply(fcs_fs, function(x) flowCore::spillover(x)[[comp_matrix]], simplify = FALSE)
+  comp <- fsApply(fcs_fs, function(x) spillover(x)[[comp_matrix]], simplify = FALSE)
   # compensate and save in new flowSet object
-  fs_comp <- flowCore::compensate(fcs_fs, comp)
+  fs_comp <- compensate(fcs_fs, comp)
   # generate Seurat object
   seu_comp <- create_seurat(fs_comp, data.frame(seu@misc))
   # add compensated matrix to new assay
-  seu[["comp"]] <- Seurat::CreateAssayObject(counts = GetAssayData(seu_comp),
-                                             min.cells = 0,
-                                             min.features = 0)
+  seu[["comp"]] <- CreateAssayObject(counts = GetAssayData(seu_comp),
+                                     min.cells = 0,
+                                     min.features = 0)
   # make compensated data as default assay
-  Seurat::DefaultAssay(seu) <- "comp"
+  DefaultAssay(seu) <- "comp"
   return(seu)
 }

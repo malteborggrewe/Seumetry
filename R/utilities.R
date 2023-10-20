@@ -9,9 +9,9 @@
 median_expression <- function(seu,
                               group_by = "ident") {
     # add idents as metadata column
-    if(group_by == "ident") seu$ident <- Seurat::Idents(seu)
+    if(group_by == "ident") seu$ident <- Idents(seu)
     # retrieve transformed counts from Seurat object (DefaultAssay)
-    counts <- Seurat::GetAssayData(seu, slot = "data")
+    counts <- GetAssayData(seu, slot = "data")
     # rename colnames in counts by group.by
     colnames(counts) <- seu@meta.data[[group_by]]
     # get the median per group
@@ -41,7 +41,7 @@ export_fcs <- function(fcs_fs,
                        cell_ids = NULL,
                        filename) {
     # merge all expression matrices from flowFrames from flowSet
-    merged <- lapply(fcs_fs@frames, function(x) flowCore::exprs(x))
+    merged <- lapply(fcs_fs@frames, function(x) exprs(x))
     merged <- do.call(rbind, merged)
     # get a references flowFrame from flowSet
     fcs_ff <- fcs_fs[[1]]
@@ -54,7 +54,7 @@ export_fcs <- function(fcs_fs,
     # export FCS
     if(!is.null(filename)) {
         # write FCS (flowCore)
-        flowCore::write.FCS(fcs_ff, filename = filename)
+        write.FCS(fcs_ff, filename = filename)
         print(paste("FCS file", filename, "containing", nrow(merged), "cells written successfully."))
     }else{
         # if exporting not desired, just return created flowFrame

@@ -58,7 +58,7 @@ detect_outliers <- function(seu,
                             seed = 42,
                             ...) {
     # get expression matrix
-    iso_forest = t(Seurat::GetAssayData(seu))
+    iso_forest = t(GetAssayData(seu))
     # isolation forest model
     model <- isotree::isolation.forest(iso_forest, ndim = ndim, ntrees = ntrees, ...)
     # label cells in Seurat object

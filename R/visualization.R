@@ -177,20 +177,20 @@ plot_cyto <- function(seu,
   }
   # plot data
   plot = ggplot(gg_df, aes(x = .data[[x]], !!!aes_list)) +
-                      theme_linedraw() + theme(aspect.ratio=1,
-                                               panel.grid.major = element_blank(),
-                                               panel.grid.minor = element_blank())
+    theme_linedraw() + theme(aspect.ratio=1,
+                             panel.grid.major = element_blank(),
+                             panel.grid.minor = element_blank())
   # add style of ggplot
   if(style == "hex") plot = plot + geom_hex(aes(y = .data[[y]]), bins = 256) +
-    scale_fill_viridis()
+    viridis::scale_fill_viridis()
   if(style == "density") plot = plot + geom_density()
   if(style == "point") plot = plot + geom_point(aes(y = .data[[y]]), size = 0.1)
   # change scale if provided
   if(scale == "log") plot = plot + scale_y_log10() + scale_x_log10()
   if(scale == "biexp") {
     plot = plot +
-      scale_x_flowjo_biexp(widthBasis=biexp_widthBasis, pos=biexp_pos, neg=biexp_neg) +
-      scale_y_flowjo_biexp(widthBasis=biexp_widthBasis, pos=biexp_pos, neg=biexp_neg)
+      ggcyto::scale_x_flowjo_biexp(widthBasis=biexp_widthBasis, pos=biexp_pos, neg=biexp_neg) +
+      ggcyto::scale_y_flowjo_biexp(widthBasis=biexp_widthBasis, pos=biexp_pos, neg=biexp_neg)
   }
   # add limits if provided
   if(!is.null(limits$x)) plot = plot + xlim(limits$x)
