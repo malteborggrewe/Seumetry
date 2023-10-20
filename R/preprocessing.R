@@ -66,7 +66,7 @@ create_seurat <- function(fcs_fs,
                           metadata = NULL,
                           ...) {
   # create matrix of all fcs files in flowSet
-  matrix <- flowCore::fsApply(fcs_fs, exprs)
+  matrix <- flowCore::fsApply(fcs_fs, flowCore::exprs)
   # create matrix of unused channels
   matrix_unused <- matrix[, !(colnames(matrix) %in% panel$fcs_colname)]
   # subset to only contain channels present in panel
