@@ -49,6 +49,7 @@ detect_aggregate_channels <- function(seu,
     indices <- which(corr_logical, arr.ind = TRUE)
     # exclude combinations with the same variable on both sides
     indices <- indices[indices[, 1] != indices[, 2], ]
+    if(nrow(indices) < 1) stop("No channels containing aggregates found. Either your dataset does not contain aggregates, or you need to adjust the parameters.", call. = FALSE)
     # sort the indices to ensure non-redundant pairs
     sorted_indices <- t(apply(indices, 1, sort))
     # remove duplicated indices (to exclude vice versa combinations)
