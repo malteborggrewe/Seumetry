@@ -22,7 +22,7 @@ Seurat object with new assay "comp", where compensation values were saved in slo
 Applies compensation matrices for each channel and saves compensated values into "comp" assay in Seurat Object. Uses \code{\link[flowCore:compensation-class]{flowCore::compensate()}} function.
 }
 \examples{
-## Option 1) Use external spillover matrix: same compensation for all files
+## Option 1) Use external spillover matrix directly: same compensation for all files
 # colnames must match panel data.frame; row.names are optional
 comp_matrix <- read.csv("spillover_matrix.csv", row.names = 1)
 seu_1 <- compensate_data(fcs_fs, seu, comp_matrix = comp_matrix)
