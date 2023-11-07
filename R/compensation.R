@@ -9,7 +9,7 @@
 #' @return Seurat object with new assay "comp", where compensation values were saved in slot "counts".
 #' @export
 #' @examples
-#' ## Option 1) Use external spillover matrix: same compensation for all files
+#' ## Option 1) Use external spillover matrix directly: same compensation for all files
 #' # colnames must match panel data.frame; row.names are optional
 #' comp_matrix <- read.csv("spillover_matrix.csv", row.names = 1)
 #' seu_1 <- compensate_data(fcs_fs, seu, comp_matrix = comp_matrix)
@@ -25,13 +25,15 @@ compensate_data <- function(fcs_fs,
                             seu,
                             comp_matrix = NULL,
                             fcs_matrix = 1) {
-  # get list of compensation matrices (one for each sample)
+  # create compensation object using a spillover matrix directly
   if(!is.null(comp_matrix)) {
-      comp <- fsApply(fcs_fs, function(x) comp_matrix, simplify = FALSE)
+      comp <- compensation(comp_matrix)
+  # or use spillover matrices from FCS files (can be different for every file)
   }else{
       # check some parameters
       if(is.null(spillover(fcs_fs[[1]])[[fcs_matrix]]))
         stop("Spillover matrix empty!", call. = FALSE)
+      # create object
       comp <- fsApply(fcs_fs, function(x) spillover(x)[[fcs_matrix]], simplify = FALSE)
   }
   # compensate and save in new flowSet object
