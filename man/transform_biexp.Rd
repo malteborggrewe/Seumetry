@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformation.R
 \name{transform_biexp}
 \alias{transform_biexp}
-\title{Biexponential transformation based on flowWorkspace flowjo_biexp}
+\title{Biexponential transformation based on flowWorkspace::flowjo_biexp}
 \usage{
 transform_biexp(matrix, panel)
 }
@@ -18,5 +18,5 @@ Transformed matrix that can be added to Seurat object.
 Transforms values for every channel based on panel data frame. Biexp can be used with 3 parameters (columns) per channel based on FlowJo 10: biexp_pos, biexp_neg, biexp_width. If a column is not provided, function will use default values. See \code{\link[flowWorkspace:flowjo_biexp]{flowWorkspace::flowjo_biexp()}} function for default values. It's best to use the wrapper function \code{\link[=transform_data]{transform_data()}} instead of using this function directly.
 }
 \examples{
-seu = SetAssayData(seu, slot = "data", new.data = transform_biexp(matrix, panel))
+seu <- SetAssayData(seu, slot = "data", new.data = transform_biexp(matrix, panel))
 }

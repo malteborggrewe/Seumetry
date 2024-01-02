@@ -22,5 +22,5 @@ Wrapper for all transformation functions using Seurat object as input & output
 See transformation functions for detail: \code{\link[=transform_arcsinh]{transform_arcsinh()}}, \code{\link[=transform_biexp]{transform_biexp()}}. Input Seurat Object uses "counts" slot from current assay, performs transformation and writes transformed counts into "data" slot from current assay using panel information stored in seu@misc.
 }
 \examples{
-seu = transform_data(seu, "arcsinh")
+seu <- transform_data(seu, "arcsinh")
 }

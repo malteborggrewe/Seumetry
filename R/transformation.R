@@ -1,4 +1,4 @@
-#' Biexponential transformation based on flowWorkspace flowjo_biexp
+#' Biexponential transformation based on flowWorkspace::flowjo_biexp
 #'
 #' Transforms values for every channel based on panel data frame. Biexp can be used with 3 parameters (columns) per channel based on FlowJo 10: biexp_pos, biexp_neg, biexp_width. If a column is not provided, function will use default values. See [flowWorkspace::flowjo_biexp()] function for default values. It's best to use the wrapper function [transform_data()] instead of using this function directly.
 #'
@@ -7,7 +7,7 @@
 #' @return Transformed matrix that can be added to Seurat object.
 #' @export
 #' @examples
-#' seu = SetAssayData(seu, slot = "data", new.data = transform_biexp(matrix, panel))
+#' seu <- SetAssayData(seu, slot = "data", new.data = transform_biexp(matrix, panel))
 transform_biexp <- function(matrix,
                             panel) {
   # function to read settings from panel
@@ -24,7 +24,7 @@ transform_biexp <- function(matrix,
     if("biexp_max" %in% names(panel_sub)) args["maxValue"] <- panel_sub$biexp_max
     if("biexp_range" %in% names(panel_sub)) args["channelRange"] <- panel_sub$biexp_range
     # build trans function
-    trans <- do.call(flowWorkspace::flowjo_biexp, args)
+    trans <- do.call(flowjo_biexp, args)
     # apply trans function
     new_values <- trans(values)
     return(new_values)
@@ -46,7 +46,7 @@ transform_biexp <- function(matrix,
 #' @return Transformed matrix that can be added to Seurat object.
 #' @export
 #' @examples
-#' seu = SetAssayData(seu, slot = "data", new.data = transform_arcsinh(matrix, panel))
+#' seu <- SetAssayData(seu, slot = "data", new.data = transform_arcsinh(matrix, panel))
 transform_arcsinh <- function(matrix,
                               panel) {
   # function to read settings from panel
@@ -82,7 +82,7 @@ transform_arcsinh <- function(matrix,
 #' @return Seurat object with transformed data in "data" slot of current assay.
 #' @export
 #' @examples
-#' seu = transform_data(seu, "arcsinh")
+#' seu <- transform_data(seu, "arcsinh")
 transform_data <- function(seu,
                            transformation) {
   # get untransformed data

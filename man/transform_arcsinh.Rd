@@ -18,5 +18,5 @@ Transformed matrix that can be added to Seurat object.
 Transforms values for every channel based on cofactor provided in panel data.frame (arcsinh_cofactor). If column not present, uses default cofactor: 5. Function used: y = arcsinh(x/cofactor). It's best to use the wrapper function \code{\link[=transform_data]{transform_data()}} instead of using this function directly.
 }
 \examples{
-seu = SetAssayData(seu, slot = "data", new.data = transform_arcsinh(matrix, panel))
+seu <- SetAssayData(seu, slot = "data", new.data = transform_arcsinh(matrix, panel))
 }
