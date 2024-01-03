@@ -35,9 +35,9 @@ plot_pca <- function(seu,
           xlab(paste0("PC1: ", percentVar[1], "% variance")) +
           ylab(paste0("PC2: ", percentVar[2], "% variance")) +
           labs(color = color, shape = shape) +
-          coord_fixed() + theme_linedraw() + theme(aspect.ratio=1,
-                                                   panel.grid.major = element_blank(),
-                                                   panel.grid.minor = element_blank())
+          theme_linedraw() + theme(aspect.ratio=1,
+                                   panel.grid.major = element_blank(),
+                                   panel.grid.minor = element_blank())
   # add labels
   if(isTRUE(label_points)) plot <- plot + geom_text(aes(label = rownames(ggdata)))
   return(plot)
