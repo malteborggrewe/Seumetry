@@ -107,7 +107,8 @@ plot_cellnumber <- function(seu,
   max <- max(ncells_df$Freq)
   min <- min(ncells_df$Freq)
   # make ggplot
-  plot <- ggplot(ncells_df, aes(x = .data[[group_by]], y = Freq)) + geom_bar(stat = "summary") +
+  plot <- ggplot(ncells_df, aes(x = .data[[group_by]], y = Freq)) +
+    geom_bar(stat = "summary", width=0.75) +
     xlab(group_by) + ylab("Number of cells") +
     theme_linedraw() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
