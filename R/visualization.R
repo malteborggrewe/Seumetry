@@ -78,7 +78,6 @@ plot_frequency <- function(seu,
   plot <- plot + geom_bar(stat = "identity", position = "stack") +
     theme_linedraw() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-          aspect.ratio = 1,
           panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
     scale_y_continuous(expand = c(0, 0)) + xlab("") + labs(fill = attribute_1)
   # return table or ggplot
@@ -112,7 +111,6 @@ plot_cellnumber <- function(seu,
     xlab(group_by) + ylab("Number of cells") +
     theme_linedraw() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-          aspect.ratio = 1,
           panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
     labs(caption = paste("Max:", max(ncells_df$Freq),
                          "// Min:", min(ncells_df$Freq),
