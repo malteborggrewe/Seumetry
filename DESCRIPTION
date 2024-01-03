@@ -13,14 +13,15 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Depends:
     R (>= 4.0.0),
-    Seurat (>= 4.0.0)
+    Seurat (>= 4.0.0),
+    ggplot2 (>= 3.4.0)
 Imports:
     Seurat (>= 4.0.0),
     flowCore,
     flowWorkspace,
     dplyr,
     ggcyto,
-    ggplot2,
+    ggplot2 (>= 3.4.0),
     edgeR,
     limma,
     viridis,
