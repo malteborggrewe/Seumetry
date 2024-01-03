@@ -134,7 +134,7 @@ plot_cellnumber <- function(seu,
 #' @param slot Choose which Seurat slot to use. Default: data (transformed).
 #' @param assay Choose which Seurat assay to use. Default: DefaultAssay(seu).
 #' @param scale Choose which scale to use for x and y axis (linear, log, biexp). Default: linear.
-#' @param limits List of x and y limits. Example: list(x = c(0,5), y = (0,5)).
+#' @param limits List of x and y limits. Example: list(x = c(0,5), y = c(0,5)).
 #' @param color Color cells based on meta.data column in Seurat object, e.g. "sample_id".
 #' @param pt_size When using style = "point", this parameter adjusts the point size (Default: 0.2).
 #' @param alpha When using style = "point", this parameter adjusts the alpha (Default: 1).

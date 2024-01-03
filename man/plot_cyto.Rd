@@ -36,7 +36,7 @@ plot_cyto(
 
 \item{scale}{Choose which scale to use for x and y axis (linear, log, biexp). Default: linear.}
 
-\item{limits}{List of x and y limits. Example: list(x = c(0,5), y = (0,5)).}
+\item{limits}{List of x and y limits. Example: list(x = c(0,5), y = c(0,5)).}
 
 \item{color}{Color cells based on meta.data column in Seurat object, e.g. "sample_id".}
 
