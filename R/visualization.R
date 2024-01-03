@@ -195,5 +195,8 @@ plot_cyto <- function(seu,
   # add limits if provided
   if(!is.null(limits$x)) plot = plot + xlim(limits$x)
   if(!is.null(limits$y)) plot = plot + ylim(limits$y)
+  # add legend title if color was changed
+  if("color" %in% names(aes_list)) plot = plot + labs(color = color) 
+  #return 
   return(plot)
 }
