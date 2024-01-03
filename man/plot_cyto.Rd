@@ -14,6 +14,8 @@ plot_cyto(
   scale = "linear",
   limits = NULL,
   color = NULL,
+  pt_size = 0.1,
+  alpha = 1,
   biexp_pos = 4.5,
   biexp_neg = 0,
   biexp_widthBasis = -10
@@ -35,6 +37,12 @@ plot_cyto(
 \item{scale}{Choose which scale to use for x and y axis (linear, log, biexp). Default: linear.}
 
 \item{limits}{List of x and y limits. Example: list(x = c(0,5), y = (0,5)).}
+
+\item{color}{Color cells based on meta.data column in Seurat object, e.g. "sample_id".}
+
+\item{pt_size}{When using style = "point", this parameter adjusts the point size (Default: 0.2).}
+
+\item{alpha}{When using style = "point", this parameter adjusts the alpha (Default: 1).}
 
 \item{biexp_pos}{If scale = "biexp", indicate biexp_pos here (see \code{\link[=transform_biexp]{transform_biexp()}}).}
 

@@ -135,6 +135,9 @@ plot_cellnumber <- function(seu,
 #' @param assay Choose which Seurat assay to use. Default: DefaultAssay(seu).
 #' @param scale Choose which scale to use for x and y axis (linear, log, biexp). Default: linear.
 #' @param limits List of x and y limits. Example: list(x = c(0,5), y = (0,5)).
+#' @param color Color cells based on meta.data column in Seurat object, e.g. "sample_id".
+#' @param pt_size When using style = "point", this parameter adjusts the point size (Default: 0.2).
+#' @param alpha When using style = "point", this parameter adjusts the alpha (Default: 1).
 #' @param biexp_pos If scale = "biexp", indicate biexp_pos here (see [transform_biexp()]).
 #' @param biexp_neg If scale = "biexp", indicate biexp_neg here (see [transform_biexp()]).
 #' @param biexp_widthBasis If scale = "biexp", indicate biexp_widthBasis here (see [transform_biexp()]).
@@ -153,6 +156,8 @@ plot_cyto <- function(seu,
                       scale = "linear",
                       limits = NULL,
                       color = NULL,
+                      pt_size = 0.1,
+                      alpha = 1,
                       biexp_pos = 4.5,
                       biexp_neg = 0,
                       biexp_widthBasis = -10) {
@@ -183,7 +188,7 @@ plot_cyto <- function(seu,
   if(style == "hex") plot = plot + geom_hex(aes(y = .data[[y]]), bins = 256) +
     viridis::scale_fill_viridis()
   if(style == "density") plot = plot + geom_density()
-  if(style == "point") plot = plot + geom_point(aes(y = .data[[y]]), size = 0.1)
+  if(style == "point") plot = plot + geom_point(aes(y = .data[[y]]), size = pt_size, alpha = alpha)
   # change scale if provided
   if(scale == "log") plot = plot + scale_y_log10() + scale_x_log10()
   if(scale == "biexp") {
