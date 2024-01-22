@@ -8,7 +8,7 @@ plot_cyto(
   seu,
   x,
   y,
-  style = "hex",
+  style = "2d_density",
   slot = "data",
   assay = NULL,
   scale = "linear",
@@ -16,6 +16,7 @@ plot_cyto(
   color = NULL,
   pt_size = 0.1,
   alpha = 1,
+  bins = 256,
   biexp_pos = 4.5,
   biexp_neg = 0,
   biexp_widthBasis = -10
@@ -26,9 +27,9 @@ plot_cyto(
 
 \item{x}{Which marker to plot on x axis.}
 
-\item{y}{Which marker to plot on y axis (only required for style = hex or points)}
+\item{y}{Which marker to plot on y axis (only required for style = 2d_density or points)}
 
-\item{style}{Choose from: "hex", "points", or "density". Default: hex.}
+\item{style}{Choose from: "2d_density", "points", or "density". Default: 2d_density.}
 
 \item{slot}{Choose which Seurat slot to use. Default: data (transformed).}
 
@@ -43,6 +44,8 @@ plot_cyto(
 \item{pt_size}{When using style = "point", this parameter adjusts the point size (Default: 0.2).}
 
 \item{alpha}{When using style = "point", this parameter adjusts the alpha (Default: 1).}
+
+\item{bins}{When using style = "2d_density", this parameter adjusts the number of bins.}
 
 \item{biexp_pos}{If scale = "biexp", indicate biexp_pos here (see \code{\link[=transform_biexp]{transform_biexp()}}).}
 

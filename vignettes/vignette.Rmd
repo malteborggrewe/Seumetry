@@ -205,7 +205,7 @@ positive or negative thresholds.
 
 ```{r man-outlier-before}
 # check each channel to determine if they contain outlier events
-plot_cyto(seu, "CD4", "CD3", style = "hex", assay = "comp", slot = "data")
+plot_cyto(seu, "CD4", "CD3", style = "2d_density", assay = "comp", slot = "data")
 ```
 
 ```{r man-outlier-removal}
@@ -220,7 +220,7 @@ seu_manual = remove_outliers_manual(seu_manual, thresholds_pos, negative = FALSE
 ```
 
 ```{r man-outerlier-after}
-plot_cyto(seu_manual, "CD4", "CD3", style = "hex", assay = "comp", slot = "data")
+plot_cyto(seu_manual, "CD4", "CD3", style = "2d_density", assay = "comp", slot = "data")
 ```
 
 
