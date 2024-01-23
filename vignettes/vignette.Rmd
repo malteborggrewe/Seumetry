@@ -15,12 +15,26 @@ knitr::opts_chunk$set(
   warning = FALSE,
   error = TRUE
 )
+getwd()
 ```
 
 # Introduction
+Advances in flow and mass cytometry now enable the simultaneous measurement of more than 50 parameters per cell, transforming it into a high-dimensional technology. Together with the high throughput of analyzing millions of cells per sample, the data requires sophisticated analysis techniques. Conventional gating, until now the gold standard for cytometry data analysis, faces challenges in scaling for the application of high-dimensional cytometry data. Issues with conventional gating strategies include inefficiency, subjectivity, and a significant risk of missing unknown or minor cell populations. Hence, unbiased and computational methods for high-dimensional cytometry data analysis are required.  
+Several computational tools for cytometry data analysis are available, primarily designed for the R programming language. Examples include
+[CATALYST](https://bioconductor.org/packages/release/bioc/html/CATALYST.html) / 
+[CyTOF workflow](https://bioconductor.org/packages/release/workflows/html/cytofWorkflow.html),
+[FlowSOM](https://bioconductor.org/packages/release/bioc/html/FlowSOM.html),
+[flowCore](https://bioconductor.org/packages/release/bioc/html/flowCore.html),
+[flowAI](https://bioconductor.org/packages/release/bioc/html/flowAI.html),
+and [diffcyt](https://bioconductor.org/packages/release/bioc/html/diffcyt.html).
+These tools address specific aspects of high-dimensional cytometry data analysis, including handling flow cytometry standard (FCS) files, preprocessing, dimensionality reduction, clustering based on self-organizing maps, and differential abundance analysis. However, interoperability between these tools is often limited and inefficient, and methods for additional in-depth data analysis are lacking.  
+Whereas high-dimensional cytometry data analysis methods are less established, tools for analyzing single-cell RNA sequencing (scRNAseq) data are highly developed and offer in-depth analysis approaches. The most commonly used framework for scRNAseq data analysis is [Seurat](https://satijalab.org/seurat/), which covers every aspect of data analysis from preprocessing to a range of downstream analyses, including dimensionality reduction and clustering. A notable advantage of scRNAseq tools is their interoperability. Most third-party tools that offer additional analysis methods, such as batch correction or trajectory analyses, integrate seamlessly into the Seurat framework. However, these scRNAseq analysis tools are not readily accessible for the analysis of cytometry data.  
+Our novel and user-friendly high-dimensional cytometry analysis R framework, Seumetry, utilizes a broad range of cytometry-specific tools for data handling and integrates into Seurat, providing access to additional scRNAseq analysis tools. The workflow comprises loading of FCS files, preprocessing (compensation and transformation), quality control, and downstream analysis in Seurat, such as dimensionality reduction, clustering, and more. Our advanced quality control algorithms cover the detection of outliers and antibody aggregate artifacts. Antibody aggregates may occur with highly complex cytometry panels, leading to false positive events. Adjusting laboratory protocols can mitigate these aggregates, but these adjustments are often impractical and a lack of rare samples may prohibit re-analysis. Our novel algorithm detects these aggregate artifacts and cleans the data. For downstream analysis, we implemented additional methods covering differential expression and abundance analysis, as well as visualization techniques.
+In summary, Seumetry combines all aspects of cytometry data analysis in a user-friendly R package, comprising loading, preprocessing, quality control, differential expression and abundance, visualizations, and downstream analyses through the Seurat framework.
 
 
 # Description of data
+To demonstrate the functionality and workflow of Seumetry, we employed a high-dimensional spectral flow cytometry dataset comprising more than 40 parameters of human intestinal immune cells. The dataset consists of 10 intestinal mucosal samples (epithelium = IEL, and lamina propria = LPL) from 5 adult human donors. The raw data was unmixed and pre-gated on single, live CD45-positive immune cells. 
 
 
 # Setup
@@ -90,7 +104,12 @@ fcs_fs <- create_flowset("data/fcs", metadata)
 fcs_fs
 ```
 It is highly recommended to save the "fcs_fs" object, as it can be used later to
-export FCS files based on specific cells (saveRDS(fcs_fs, "fcs_fs.rds").
+export FCS files based on specific cells.
+
+```{r save-flowset, eval=FALSE}
+saveRDS(fcs_fs, "fcs_fs.rds")
+```
+
 
 # Create Seurat object
 All FCS files will be merged and metadata will be added based on sample_id and 
@@ -112,9 +131,9 @@ plot_cellnumber(seu)
 # Preprocessing
 ## Compensation
 Compensation is based on spillover matrix that can be provided within the FCS 
-file or as an data.frame.  
+file or as a data.frame.  
 
-Option 1) Use external spillover matrix directly: same compensation for all files. 
+Option 1) Use external spillover matrix directly: same compensation for all files.  
 Option 2) Use spillover matrix saved in FCS files: same compensation for all files.  
 Option 3) Use spillover matrix saved in FCS files: compensation matrix used from
 individual FCS files, thus can be different for each file.  
@@ -122,7 +141,7 @@ individual FCS files, thus can be different for each file.
 The compensate_data function will use flowCore::compensate to compensate the raw 
 values and write a new assay into the Seurat object called "comp". The compensated 
 data are saved in "counts" slot.  
-Warning: if multiple matrices are present, use the correct one!  
+Warning: if multiple spillover matrices are present in FCS files, use the correct one!  
 
 Here, we use option 3 to compensate the data.
 ```{r compensation}
@@ -149,7 +168,7 @@ Transformation is performed on "counts" data of the DefaultAssay of the Seurat
 object. The DefaultAssay is either "fcs" or "comp" depending on whether 
 compensation was performed or not.  
   
-The seu_transform function will return a Seurat object with transformed data 
+The transform_data function will return a Seurat object with transformed data 
 written into the "data" slot. 
   
 Both arcsinh and biexp transformation can and should be used with custom parameters. 
@@ -189,15 +208,15 @@ plot_cellnumber(seu)
 
 
 # Quality control
-(Flow) cytometry is an inherently noisy technology. There will be events close 
-to the axis or artefacts due to antibody aggregation. Seumetry provides multiple 
+Cytometry is an inherently noisy technology. There will be events close  to the
+axis or artefacts due to antibody aggregation. Seumetry provides multiple 
 quality control tools to achieve clean data for downstream analysis.
 
 ## Removal of outliers
-It can occur with (Flow) cytometry, that some events have extremely negative or 
+It can occur with cytometry, that some events have extremely negative or 
 positive values. Here, we can remove these outlier events 1) by setting a manual 
 threshold for each channel or 2) by using an automatic removal algorithm based on 
-isolation forest algorithm.
+isolation forest.
 
 ### Manual removal
 Use a named vector to indicate threshold for each channel. The function can take 
@@ -253,6 +272,8 @@ plot4 <- plot_cyto(subset(seu, subset = outlier == FALSE), x = "CD4", y = "CD3",
 plot1 + plot2 + plot3 + plot4
 ```
 
+Remove outliers from Seurat object.
+
 ```{r auto-outlier-removal}
 # remove outliers from Seurat object
 seu <- subset(seu, subset = outlier == FALSE)
@@ -291,7 +312,8 @@ pheatmap::pheatmap(problem_channels[[1]], main = "Pearson R")
 pheatmap::pheatmap(problem_channels[[2]], main = "Pearson R > 0.7")
 ```
 
-Next, we can plot the channel combinations that potentially contain aggregates and manually assess if these channels are really problematic.
+Next, we can plot the channel combinations that potentially contain aggregates
+and manually assess if these channels are really problematic.
 
 ```{r aggregate-channels-plots, fig.width=10, fig.height=5}
 plots <- list()
@@ -300,8 +322,8 @@ for(i in 1:nrow(problem_channels[[3]]))
 do.call(gridExtra::grid.arrange, c(plots, ncol = 3))
 ```
 
-If a channel combination does not look like it contains aggregates, remove them 
-from that row from the data.frame (problem_channels[[3]]).  
+If a channel combination does not look like it contains aggregates, remove that
+row from the data.frame (problem_channels[[3]]).  
   
 Next, we can detect aggregates in the problematic channels using a modified 
 RANSAC algorithm. Each cell will get an aggregate_score, which is the number 
@@ -335,12 +357,41 @@ If the result is satisfactory, the aggregates can be removed.
 seu <- subset(seu, subset = aggregate == FALSE)
 ```
 
+```{r aggregate-channels-plots2, fig.width=10, fig.height=5}
+plots <- list()
+for(i in 1:nrow(problem_channels[[3]]))
+  plots[[i]] <- plot_cyto(seu, x = problem_channels[[3]][i, "Channel_1"], y = problem_channels[[3]][i, "Channel_2"])
+do.call(gridExtra::grid.arrange, c(plots, ncol = 3))
+```
+
+It is possible that some aggregates still remain. In that case it is advisable to
+fine tune the parameters of the aggregate_channels function.  
+Alternatively, remaining artefacts may be removed by detecting outliers again using
+the isolation forest.
+
+```{r auto-outlier-detection2}
+seu <- detect_outliers(seu, score_threshold = 0.6)
+```
+
+```{r outlier-plots2, fig.width=10, fig.height=5}
+plots <- list()
+for(i in 1:nrow(problem_channels[[3]]))
+  plots[[i]] <- plot_cyto(seu, x = problem_channels[[3]][i, "Channel_1"],
+                          y = problem_channels[[3]][i, "Channel_2"],
+                          style = "point", color = "outlier")
+do.call(gridExtra::grid.arrange, c(plots, ncol = 3))
+```
+
+```{r auto-outlier-removal2}
+# remove outliers from Seurat object
+seu <- subset(seu, subset = outlier == FALSE)
+```
 
 # Seurat downstream analysis
 UMAP, clustering, plotting etc is completely compatible with Seurat workflow. 
-If UMAPs and clustering are not clean, it can help to only select features for 
-PCA that distinguish expected cell subsets, e.g. CD3, CD4, and CD8 if working 
-with T cells.  
+If UMAPs and clustering do not separate celltypes well, it can help to only
+select features for PCA that distinguish expected cell subsets, e.g. CD3, CD4,
+and CD8 if working with T cells.  
 Here, all features are used for scaling, PCA. For UMAP and clustering, all PCs
 are used.  
 

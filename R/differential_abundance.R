@@ -34,8 +34,10 @@ differential_abundance <- function(seu,
   fit <- edgeR::glmFit(dge, model)
   # return coefficients to pick contrast
   if(isTRUE(check_coeff)) return(colnames(fit$coeff))
-  # make comparison and return results
-  res <- edgeR::glmLRT(fit, contrast = contrast)
-  res <- as.data.frame(edgeR::topTags(res, adjust.method = "BH", sort.by = "PValue", n = Inf))
-  return(res)
+  else{
+      # make comparison and return results
+      res <- edgeR::glmLRT(fit, contrast = contrast)
+      res <- as.data.frame(edgeR::topTags(res, adjust.method = "BH", sort.by = "PValue", n = Inf))
+      return(res)
+  }
 }

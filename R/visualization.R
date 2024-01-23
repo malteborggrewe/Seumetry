@@ -130,7 +130,7 @@ plot_cellnumber <- function(seu,
 #' @param seu Seurat object.
 #' @param x Which marker to plot on x axis.
 #' @param y Which marker to plot on y axis (only required for style = 2d_density or points)
-#' @param style Choose from: "2d_density", "points", or "density". Default: 2d_density.
+#' @param style Choose from: "2d_density", "point", or "density". Default: 2d_density.
 #' @param slot Choose which Seurat slot to use. Default: data (transformed).
 #' @param assay Choose which Seurat assay to use. Default: DefaultAssay(seu).
 #' @param scale Choose which scale to use for x and y axis (linear, log, biexp). Default: linear.
@@ -159,7 +159,7 @@ plot_cyto <- function(seu,
                       color = NULL,
                       pt_size = 0.1,
                       alpha = 1,
-                      bins = 256,
+                      bins = 200,
                       biexp_pos = 4.5,
                       biexp_neg = 0,
                       biexp_widthBasis = -10) {
