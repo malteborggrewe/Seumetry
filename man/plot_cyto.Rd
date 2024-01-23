@@ -16,7 +16,7 @@ plot_cyto(
   color = NULL,
   pt_size = 0.1,
   alpha = 1,
-  bins = 256,
+  bins = 200,
   biexp_pos = 4.5,
   biexp_neg = 0,
   biexp_widthBasis = -10
@@ -29,7 +29,7 @@ plot_cyto(
 
 \item{y}{Which marker to plot on y axis (only required for style = 2d_density or points)}
 
-\item{style}{Choose from: "2d_density", "points", or "density". Default: 2d_density.}
+\item{style}{Choose from: "2d_density", "point", or "density". Default: 2d_density.}
 
 \item{slot}{Choose which Seurat slot to use. Default: data (transformed).}
 
