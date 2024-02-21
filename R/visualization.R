@@ -23,8 +23,10 @@ plot_pca <- function(seu,
   pca <- prcomp(t(ave_df))
   # the contribution to the total variance for each component
   percentVar <- round(pca$sdev^2/sum(pca$sdev^2)*100)
+  # create metadata data.frame based on seu@meta.data
+  metadata <- seu@meta.data[match(rownames(pca$x), seu@meta.data[, group_by]),]
   # add meta data
-  ggdata <- cbind(pca$x, seu@meta.data[!duplicated(seu@meta.data[, group_by]),])
+  ggdata <- cbind(pca$x, metadata)
   # make list of additional aesthetics
   aes_list <- list()
   if (!is.null(color)) aes_list$color <- ggdata[[color]]
