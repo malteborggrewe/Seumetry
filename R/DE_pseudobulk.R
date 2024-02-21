@@ -20,7 +20,7 @@ DE_pseudobulk <- function(seu,
     # get median expression per sample
     counts <- median_expression(seu, group_by = group_by)
     # create metadata data.frame based on seu@meta.data
-    metadata <- seu@meta.data[match(unique(seu@meta.data[, group_by]), seu@meta.data[, group_by]),]
+    metadata <- seu@meta.data[match(colnames(counts), seu@meta.data[, group_by]),]
     # filter out samples with low number of cells
     keep <- names(which(table(seu@meta.data[, group_by]) >= min.cells))
     counts <- counts[,keep]
