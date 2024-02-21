@@ -25,7 +25,7 @@ differential_abundance <- function(seu,
   # create matrix with cellcounts
   cellcounts <- as.matrix(table(seu@meta.data[, attribute], seu@meta.data[, group_by]))
   # create sample-level metadata
-  metadata <- seu@meta.data[match(unique(seu@meta.data[, group_by]), seu@meta.data[, group_by]),]
+  metadata <- seu@meta.data[match(colnames(cellcounts), seu@meta.data[, group_by]),]
   # make model matrix
   model <- model.matrix(formula, data = metadata)
   # dge analysis
