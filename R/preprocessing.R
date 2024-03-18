@@ -67,12 +67,16 @@ create_seurat <- function(fcs_fs,
                           ...) {
   # create matrix of all fcs files in flowSet
   matrix <- fsApply(fcs_fs, exprs)
+  # check if all channels in panel can be found in FCS files
+  if(!all(panel$fcs_colname %in% colnames(matrix))) {
+      stop("Not all channels provided in panel$fcs_colname are present in FCS files! Make sure names of channels overlap (names(fcs_fs[[1]])).")
+  }
   # create matrix of unused channels
   matrix_unused <- matrix[, !(colnames(matrix) %in% panel$fcs_colname)]
   # subset to only contain channels present in panel
   matrix <- matrix[, colnames(matrix) %in% panel$fcs_colname]
   # rename channels to antigen in panel
-  colnames(matrix) <- panel[match(colnames(matrix), panel$fcs_colname), "antigen"]
+  colnames(matrix) <- panel[match(colnames(matrix), panel$fcs_colname), ]$antigen
   # transpose to have Seurat format
   matrix <- t(matrix) 
   # create cell level metadata
