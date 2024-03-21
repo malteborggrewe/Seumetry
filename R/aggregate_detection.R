@@ -132,7 +132,7 @@ run_modified_ransac <- function(formula,
 #'
 #' @param seu Seurat object.
 #' @param aggregate_channels A data.frame with columns giving the channel combinations that potentially contain aggregates. This can be determine with [detect_aggregate_channels()] which returns a list. Element 3 of the list is this data.frame (aggregate_channels[[3]]).
-#' @param score_threshold Number of channel combinations in which a cells should at least be labeled as an aggregate (aggregate_score) to regard it as an aggregate. The higher the number, the less likely false positives will occur, but the more likely aggregates could be missed. Default: 2.
+#' @param score_threshold Number of channel combinations in which a cells should at be labeled as an aggregate (aggregate_score) to regard it as an aggregate. The higher the number, the less likely false positives will occur, but the more likely aggregates could be missed. Default: >=2.
 #' @param fit_threshold Threshold for residuals (y - predicted) to be counted as aggregates in modified RANSAC model. Also see [run_modified_ransac()].
 #' @param pos_threshold Treshold that distinguishes positive and negative events. Should be the value as provided for [detect_aggregate_channels()]. Default: 1.
 #' @param ... Arguments that will be passed on to [run_modified_ransac()].
