@@ -18,7 +18,7 @@ detect_aggregates(
 
 \item{aggregate_channels}{A data.frame with columns giving the channel combinations that potentially contain aggregates. This can be determine with \code{\link[=detect_aggregate_channels]{detect_aggregate_channels()}} which returns a list. Element 3 of the list is this data.frame (aggregate_channels[\link{3}]).}
 
-\item{score_threshold}{Number of channel combinations in which a cells should at least be labeled as an aggregate (aggregate_score) to regard it as an aggregate. The higher the number, the less likely false positives will occur, but the more likely aggregates could be missed. Default: 2.}
+\item{score_threshold}{Number of channel combinations in which a cells should at be labeled as an aggregate (aggregate_score) to regard it as an aggregate. The higher the number, the less likely false positives will occur, but the more likely aggregates could be missed. Default: >=2.}
 
 \item{fit_threshold}{Threshold for residuals (y - predicted) to be counted as aggregates in modified RANSAC model. Also see \code{\link[=run_modified_ransac]{run_modified_ransac()}}.}
 

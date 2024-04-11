@@ -15,6 +15,7 @@ plot_cyto(
   limits = NULL,
   color = NULL,
   pt_size = 0.1,
+  rasterize = FALSE,
   alpha = 1,
   bins = 200,
   biexp_pos = 4.5,
@@ -42,6 +43,8 @@ plot_cyto(
 \item{color}{Color cells based on meta.data column in Seurat object, e.g. "sample_id".}
 
 \item{pt_size}{When using style = "point", this parameter adjusts the point size (Default: 0.2).}
+
+\item{rasterize}{Rasterize plot. Useful for plotting large datasets (Default: FALSE).}
 
 \item{alpha}{When using style = "point", this parameter adjusts the alpha (Default: 1).}
 

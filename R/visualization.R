@@ -139,6 +139,7 @@ plot_cellnumber <- function(seu,
 #' @param limits List of x and y limits. Example: list(x = c(0,5), y = c(0,5)).
 #' @param color Color cells based on meta.data column in Seurat object, e.g. "sample_id".
 #' @param pt_size When using style = "point", this parameter adjusts the point size (Default: 0.2).
+#' @param rasterize Rasterize plot. Useful for plotting large datasets (Default: FALSE).
 #' @param alpha When using style = "point", this parameter adjusts the alpha (Default: 1).
 #' @param bins When using style = "2d_density", this parameter adjusts the number of bins.
 #' @param biexp_pos If scale = "biexp", indicate biexp_pos here (see [transform_biexp()]).
@@ -160,6 +161,7 @@ plot_cyto <- function(seu,
                       limits = NULL,
                       color = NULL,
                       pt_size = 0.1,
+                      rasterize = FALSE,
                       alpha = 1,
                       bins = 200,
                       biexp_pos = 4.5,
@@ -205,6 +207,8 @@ plot_cyto <- function(seu,
   if(!is.null(limits$y)) plot = plot + ylim(limits$y)
   # add legend title if color was changed
   if("color" %in% names(aes_list)) plot = plot + labs(color = color) 
+  # rasterize
+  if(rasterize) plot <- ggrastr::rasterize(plot, dpi = 600)
   #return 
   return(plot)
 }
